@@ -6,7 +6,7 @@ import { issues, users } from '@/db/schema'
 import { mockDelay } from './utils'
 import { unstable_cacheTag as cacheTag } from 'next/cache'
 
-export const getCurrentUser = async () => {
+export const getCurrentUser = cache(async () => {
   await mockDelay(1000)
   const session = await getSession()
   if (!session) {
@@ -24,12 +24,12 @@ export const getCurrentUser = async () => {
     console.error(e)
     return null
   }
-}
+})
 
 export const getUserByEmail = async (email: string) => {
   try {
     const user = await db.query.users.findFirst({
-      where: eq(users.email, email),
+      where: eq(users.emai l, email),
     })
 
     return user
